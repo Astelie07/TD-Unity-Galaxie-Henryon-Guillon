@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ToggleOrbit : MonoBehaviour
+public class ToggleOrbit
 {
     public Orbit orbitScript;
     

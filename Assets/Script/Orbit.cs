@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Orbit : MonoBehaviour
+public class Orbit
 {
     public Transform refTarget;
     public Vector3 orbitAxis = Vector3.up;
