@@ -1,10 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ToggleOrbit
+public class ToggleOrbit : MonoBehaviour
 {
     public Orbit orbitScript;
-    
     public Key toggleKey = Key.Space;
 
     // Appuyer sur espace arrete / relance le script Orbit
