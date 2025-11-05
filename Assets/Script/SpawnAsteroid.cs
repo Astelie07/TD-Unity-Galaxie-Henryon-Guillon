@@ -9,14 +9,14 @@ public class SpawnAsteroid : MonoBehaviour
     private InputAction leftMouseClick;
 
     private void Awake() {
-        leftMouseClick = new InputAction(binding: "<Mouse>/leftButton");
-        leftMouseClick.performed += ctx => LeftMouseClicked();
+        leftMouseClick = new InputAction(binding: "<Mouse>/rightButton");
+        leftMouseClick.performed += ctx => RightMouseClicked();
         leftMouseClick.Enable();
     }
 
-    private void LeftMouseClicked()
+    private void RightMouseClicked()
     {
-        print("LeftMouseClicked");
+        print("Click !");
         Vector3 randomPos = sun.position + Random.onUnitSphere * spawnRadius;
         randomPos.y = Mathf.Clamp(randomPos.y, -spawnRadius / 2f, spawnRadius / 2f);
 
