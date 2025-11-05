@@ -48,7 +48,7 @@ public class AgentManager : MonoBehaviour
     {
         for (int i = 0; i < _numberOfAgents; i++)
         {
-            Instantiate(_agent);
+            Instantiate(_agent, new Vector3(0, 0, 0), Quaternion.identity);
             _agent.GetComponent<NavMeshAgent>().speed = _agentsSpeed;
             _agent.GetComponent<PathFindingAI>()._isRandomTarget = _isRandomTarget;
             _agentsList.Add(_agent);
