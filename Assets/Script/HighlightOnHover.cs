@@ -6,12 +6,6 @@ public class HighlightOnHover : MonoBehaviour
 
     void Start()
     {
-        if (childObj == null)
-        {
-            Debug.LogError($"[HighlightOnHover] Aucun objet assigné à 'childObj' pour {gameObject.name} !");
-            return;
-        }
-
         childObj.SetActive(false);
     }
     

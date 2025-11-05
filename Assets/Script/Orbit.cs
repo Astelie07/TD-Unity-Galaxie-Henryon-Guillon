@@ -12,13 +12,6 @@ public class Orbit : MonoBehaviour
 
     void Start()
     {
-        if (refTarget == null)
-        {
-            Debug.LogWarning($"{nameof(Orbit)}: donnez l'élément référence pour '{gameObject.name}'. Script désactivé.", this);
-            enabled = false;
-            return;
-        }
-
         offset = transform.position - refTarget.position;
 
         if (orbitAxis == Vector3.zero) orbitAxis = Vector3.up;
