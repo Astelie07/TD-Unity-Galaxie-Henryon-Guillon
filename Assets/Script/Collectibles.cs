@@ -2,15 +2,12 @@ using UnityEngine;
 
 public class Collectibles : MonoBehaviour
 {
-
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        transform.Rotate(0, 0.5f, 0);
-    }
-
-    private void OnTriggerEnter(Collider other) {   
-        if (other.CompareTag("Player")) {
+        if (other.CompareTag("Player"))
+        {
             Destroy(gameObject);
         }
     }
 }
+
