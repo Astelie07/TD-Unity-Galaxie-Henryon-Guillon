@@ -19,6 +19,7 @@ public class FrostManager : MonoBehaviour
 
     public void StartFrost()
     {
-
+        Debug.Log("start frost");
+        //actionner l'ui + l'effet de post process, start un timer
     }
 }
