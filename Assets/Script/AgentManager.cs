@@ -15,6 +15,8 @@ public class AgentManager : MonoBehaviour
 
     [SerializeField] private bool _isRandomTarget;
 
+    private GameObject _currentAgent;
+
     void Start()
     {
         if(_agent != null)
@@ -48,10 +50,10 @@ public class AgentManager : MonoBehaviour
     {
         for (int i = 0; i < _numberOfAgents; i++)
         {
-            Instantiate(_agent, new Vector3(0, 0, 0), Quaternion.identity);
-            _agent.GetComponent<NavMeshAgent>().speed = _agentsSpeed;
-            _agent.GetComponent<PathFindingAI>()._isRandomTarget = _isRandomTarget;
-            _agentsList.Add(_agent);
+            _currentAgent = Instantiate(_agent, new Vector3(0, 0, 0), Quaternion.identity);
+            _currentAgent.GetComponent<NavMeshAgent>().speed = _agentsSpeed;
+            _currentAgent.GetComponent<PathFindingAI>()._isRandomTarget = _isRandomTarget;
+            _agentsList.Add(_currentAgent);
         }
     }
 }
