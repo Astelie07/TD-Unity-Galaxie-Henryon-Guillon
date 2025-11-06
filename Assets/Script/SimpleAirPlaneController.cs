@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace HeneGames.Airplane
 {
@@ -9,9 +10,8 @@ namespace HeneGames.Airplane
         [SerializeField] private float turboSpeed = 40f;
         [SerializeField] private float accelerating = 5f;
         [SerializeField] private float deaccelerating = 3f;
-        [SerializeField] private float yawSpeed = 50f;
+        [SerializeField] private float turnSpeed = 100f;  
         [SerializeField] private float pitchSpeed = 100f;
-        [SerializeField] private float rollSpeed = 200f;
 
         [Header("Turbo")]
         [SerializeField] private float turboHeat = 0f;
@@ -23,9 +23,32 @@ namespace HeneGames.Airplane
         private float currentSpeed;
         private bool turboOverheat;
 
-        // Inputs
-        private float inputH, inputV;
-        private bool inputTurbo, inputYawLeft, inputYawRight;
+        // Input system
+        private InputAction pitchAction;   // W/S ou stick vertical
+        private InputAction turnAction;    // A/D ou stick horizontal
+        private InputAction turboAction;   // Souris droite
+
+        private void Awake()
+        {
+            // Pitch
+            pitchAction = new InputAction("Pitch", InputActionType.Value);
+            pitchAction.AddBinding("<Keyboard>/w").WithProcessor("scale(factor=1)");
+            pitchAction.AddBinding("<Keyboard>/s").WithProcessor("scale(factor=-1)");
+            pitchAction.AddBinding("<Gamepad>/leftStick/y");
+
+            // Turn (roll + yaw)
+            turnAction = new InputAction("Turn", InputActionType.Value);
+            turnAction.AddBinding("<Keyboard>/a").WithProcessor("scale(factor=-1)");
+            turnAction.AddBinding("<Keyboard>/d").WithProcessor("scale(factor=1)");
+            turnAction.AddBinding("<Gamepad>/leftStick/x");
+
+            // Turbo
+            turboAction = new InputAction(type: InputActionType.Button, binding: "<Mouse>/rightButton");
+
+            pitchAction.Enable();
+            turnAction.Enable();
+            turboAction.Enable();
+        }
 
         private void Start()
         {
@@ -34,28 +57,35 @@ namespace HeneGames.Airplane
 
         private void Update()
         {
-            HandleInputs();
             MovePlane();
-        }
-
-        private void HandleInputs()
-        {
-            inputH = Input.GetAxis("Horizontal");
-            inputV = Input.GetAxis("Vertical");
-            inputYawLeft = Input.GetKey(KeyCode.Q);
-            inputYawRight = Input.GetKey(KeyCode.E);
-            inputTurbo = Input.GetKey(KeyCode.LeftShift);
         }
 
         private void MovePlane()
         {
-            // Rotation
-            transform.Rotate(Vector3.forward * -inputH * rollSpeed * Time.deltaTime);
-            transform.Rotate(Vector3.right * inputV * pitchSpeed * Time.deltaTime);
-            if (inputYawRight) transform.Rotate(Vector3.up * yawSpeed * Time.deltaTime);
-            else if (inputYawLeft) transform.Rotate(-Vector3.up * yawSpeed * Time.deltaTime);
+            // Entrées
+            float inputV = pitchAction.ReadValue<float>();       // Pitch
+            float horizontal = turnAction.ReadValue<float>();    // Roll + Yaw
+            bool inputTurbo = turboAction.IsPressed();
 
-            // Turbo
+            // Rotation combinée roll + yaw
+            Vector3 targetEuler = transform.eulerAngles;
+
+            // Pitch (montée/descente)
+            targetEuler.x += inputV * pitchSpeed * Time.deltaTime;
+
+            // Yaw (rotation horizontale)
+            targetEuler.y += horizontal * turnSpeed * Time.deltaTime;
+
+            // Roll (inclinaison)
+            float targetRoll = -horizontal * 45f; // Inclinaison maximale ±45°
+            float currentRoll = transform.eulerAngles.z;
+            if (currentRoll > 180f) currentRoll -= 360f; // Correction pour angles >180°
+            float newRoll = Mathf.Lerp(currentRoll, targetRoll, Time.deltaTime * 3f);
+            targetEuler.z = newRoll;
+
+            transform.eulerAngles = targetEuler;
+
+            // Turbo / vitesse
             if (inputTurbo && !turboOverheat)
             {
                 turboHeat += turboHeatRate * Time.deltaTime;
@@ -74,8 +104,15 @@ namespace HeneGames.Airplane
                 currentSpeed = Mathf.Lerp(currentSpeed, defaultSpeed, deaccelerating * Time.deltaTime);
             }
 
-            // Avance
+            // Déplacement
             transform.Translate(Vector3.forward * currentSpeed * Time.deltaTime);
+        }
+
+        private void OnDestroy()
+        {
+            pitchAction.Disable();
+            turnAction.Disable();
+            turboAction.Disable();
         }
     }
 }

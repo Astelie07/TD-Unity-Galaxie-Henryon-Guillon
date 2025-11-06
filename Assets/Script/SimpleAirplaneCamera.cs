@@ -1,5 +1,6 @@
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.InputSystem; 
 
 namespace HeneGames.Airplane
 {
@@ -12,6 +13,15 @@ namespace HeneGames.Airplane
         [Header("Camera values")]
         [SerializeField] private float cameraDefaultFov = 60f;
         [SerializeField] private float cameraTurboFov = 40f;
+
+        private InputAction turboAction;
+
+        private void Awake()
+        {
+            // Turbo avec "Shift gauche"
+            turboAction = new InputAction(type: InputActionType.Button, binding: "<Keyboard>/leftShift");
+            turboAction.Enable();
+        }
 
         private void Start()
         {
@@ -26,8 +36,8 @@ namespace HeneGames.Airplane
 
         private void CameraFovUpdate()
         {
-            // Si le turbo est actif → zoom
-            if (Input.GetKey(KeyCode.LeftShift))
+            // Si la touche Turbo est pressée → zoom
+            if (turboAction.IsPressed())
             {
                 ChangeCameraFov(cameraTurboFov);
             }
@@ -41,6 +51,11 @@ namespace HeneGames.Airplane
         {
             float _delta = Time.deltaTime * 10f;
             freeLook.m_Lens.FieldOfView = Mathf.Lerp(freeLook.m_Lens.FieldOfView, _fov, _delta);
+        }
+
+        private void OnDestroy()
+        {
+            turboAction.Disable();
         }
     }
 }

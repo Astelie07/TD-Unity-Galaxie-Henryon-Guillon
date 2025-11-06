@@ -9,7 +9,6 @@ namespace HeneGames.Airplane
 
         private void OnTriggerEnter(Collider other)
         {
-            // Tu peux laisser ça vide, ou déclencher un effet visuel si tu veux
             collideSometing = true;
         }
     }
