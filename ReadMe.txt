@@ -2,8 +2,8 @@
 X	-> le personnage est un avion : controles full clavier, on accélère grâce à "lshift"
 X	-> on collecte des étoiles
 X	-> Physique : quand space pas pressé, l'avion continue sur sa trajectoire (mais tombe)
-	-> quand toutes les étoiles sont récupérer : un portail apparapit : fin
-	-> ajout des sons : musique, sons, etc...
+X	-> quand toutes les étoiles sont récupérer : fin
+stereo	-> ajout des sons : musique, sons, etc...
 	-> Affichage des informations :
 X		- Affichage du nombre d’objets en possession du joueur (UI overlay)
 		- Information textuel dans le monde (UI world)
