@@ -17,6 +17,7 @@ public class blade_animation : MonoBehaviour
     {
         if (shiftPressed.WasPressedThisFrame())
         {
+            print("turbo on");
             bladeAnimator.SetBool("is_turbo", true);
         }
         else

@@ -7,7 +7,7 @@ public class InterfaceUI : MonoBehaviour
 {
     public Text countText;
     public Text instructions;
-    public int collectible;
+    private int collectible;
 
     public AudioClip soundClip;
 
@@ -66,7 +66,7 @@ public class InterfaceUI : MonoBehaviour
     private void UpdateCountText()
     {
         if (countText != null)
-            countText.text = "Count: " + collectible + " / 10";
+            countText.text = "Stars: " + collectible + " / 10";
     }
 
     private void OnDestroyActionPerformed(InputAction.CallbackContext ctx)
