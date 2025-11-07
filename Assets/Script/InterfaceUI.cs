@@ -55,9 +55,9 @@ public class InterfaceUI : MonoBehaviour
         GameObject tempAudio = new GameObject("TempAudio");
         AudioSource aSource = tempAudio.AddComponent<AudioSource>();
         aSource.clip = soundClip;
-        aSource.volume = 0.5f;     
-        aSource.priority = 10;    
-        aSource.spatialBlend = 0f; 
+        aSource.volume = 0.5f;
+        aSource.priority = 10;
+        aSource.spatialBlend = 0f;
         aSource.Play();
         Destroy(tempAudio, soundClip.length);
     }
@@ -97,7 +97,12 @@ public class InterfaceUI : MonoBehaviour
     {
         if (collectible >= 10)
         {
-            SceneManager.LoadScene(0);
+            Debug.Log("Fermeture");
+            Application.Quit();
+
+            #if UNITY_EDITOR
+                    UnityEditor.EditorApplication.isPlaying = false;
+            #endif
         }
     }
 
