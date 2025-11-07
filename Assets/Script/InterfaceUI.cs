@@ -38,6 +38,8 @@ public class InterfaceUI : MonoBehaviour
     {
         if (other.gameObject.CompareTag("star"))
         {
+             if (!other.gameObject.activeSelf) return;
+
             PlayCollectSound();
             other.gameObject.SetActive(false);
             collectible++;

@@ -91,6 +91,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 884dae88488f6644cad764894920f5ba, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5771964867354635942}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 884dae88488f6644cad764894920f5ba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7110282068979635042}
   m_SourcePrefab: {fileID: 100100000, guid: 884dae88488f6644cad764894920f5ba, type: 3}
 --- !u!1 &3824110197468282073 stripped
 GameObject:
@@ -5147,3 +5150,17 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &7110282068979635042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3824110197468282073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63a47f29ea8fd294ea1295e8fbaad062, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RotateSelf
+  selfSpinAxis: {x: 0, y: 1, z: 0}
+  selfSpinSpeed: 90
