@@ -8,6 +8,8 @@ public class AgentManager : MonoBehaviour
     [SerializeField] private GameObject _agent;
     [SerializeField] private int _numberOfAgents = 1;
 
+    [SerializeField] private List<Transform> _spawnPoints = new List<Transform>();
+
     public List<GameObject> _agentsList = new List<GameObject>();
 
 
@@ -19,7 +21,12 @@ public class AgentManager : MonoBehaviour
 
     void Start()
     {
-        if(_agent != null)
+        foreach (GameObject _spawn in GameObject.FindGameObjectsWithTag("SpawnPoint"))
+        {
+            _spawnPoints.Add(_spawn.GetComponent<Transform>());
+        }
+
+        if (_agent != null)
         {
             AgentsSpawn();
         }
@@ -30,17 +37,17 @@ public class AgentManager : MonoBehaviour
         
     }
 
-    public void OnValidate()
-    {
-        ChangeAgentsValues();
-    }
+    //public void OnValidate()
+    //{
+    //    ChangeAgentsValues();
+    //}
 
-    void ChangeAgentsValues()
+    public void ChangeAgentsValues(float _frostSpeed)
     {
         Debug.Log("changeSpeed");
         foreach (GameObject i in _agentsList)
         {
-            i.GetComponent<NavMeshAgent>().speed = _agentsSpeed;
+            i.GetComponent<NavMeshAgent>().speed = _frostSpeed;
             Debug.Log(i.name + "is changing speed");
             Debug.Log(i.GetComponent<NavMeshAgent>().speed);
         }
@@ -50,7 +57,12 @@ public class AgentManager : MonoBehaviour
     {
         for (int i = 0; i < _numberOfAgents; i++)
         {
-            _currentAgent = Instantiate(_agent, new Vector3(0, 0, 0), Quaternion.identity);
+            //random pos between multiple spawn points
+            int index = Random.Range(0, _spawnPoints.Count);
+            Transform _randomSpawnPos = _spawnPoints[index];
+
+
+            _currentAgent = Instantiate(_agent, _randomSpawnPos.position, Quaternion.identity);
             _currentAgent.GetComponent<NavMeshAgent>().speed = _agentsSpeed;
             _currentAgent.GetComponent<PathFindingAI>()._isRandomTarget = _isRandomTarget;
             _agentsList.Add(_currentAgent);

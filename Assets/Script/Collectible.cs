@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Collectible : MonoBehaviour
 {
-    private FrostManager _frostManager; 
+    private FrostManager _frostManager;
+    [SerializeField] private GameObject _splashEffect;
     void Start()
     {
         _frostManager = FindAnyObjectByType<FrostManager>();
@@ -19,6 +20,7 @@ public class Collectible : MonoBehaviour
         {
             Debug.Log("player detected");
             _frostManager.StartFrost();
+            _splashEffect.SetActive(true);
             this.gameObject.SetActive(false);
         }
     }

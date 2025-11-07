@@ -14,6 +14,8 @@ public class PathFindingAI : MonoBehaviour
     private bool _endTarget = false;
 
     public bool _isRandomTarget;
+    private bool _followPlayer = false;
+    private Transform _playerPos;
 
 
     void Start()
@@ -31,19 +33,26 @@ public class PathFindingAI : MonoBehaviour
 
     void Update()
     {
-        if (_endTarget == false)
+        if(_followPlayer == true)
         {
-            _navMeshAgent.destination = _currentDestination.position;
-
-            if (Vector3.Distance(transform.position, _currentDestination.position) <= 1f)
-            {
-                Debug.Log("destination atteinte");
-                SetDestination();
-            }
+            _navMeshAgent.destination = _playerPos.position;
         }
         else
         {
-            _navMeshAgent.isStopped = true;
+            if (_endTarget == false)
+            {
+                _navMeshAgent.destination = _currentDestination.position;
+
+                if (Vector3.Distance(transform.position, _currentDestination.position) <= 1f)
+                {
+                    Debug.Log("destination atteinte");
+                    SetDestination();
+                }
+            }
+            else
+            {
+                _navMeshAgent.isStopped = true;
+            }
         }
     }
 
@@ -70,6 +79,21 @@ public class PathFindingAI : MonoBehaviour
                 _targetList.RemoveAt(_targetList.Count - 1);
                 _currentDestination.position = _currentDestination.position;
             }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            Debug.Log("player grou");
+            _playerPos = other.transform;
+
+            if(_followPlayer == false)
+            {
+                this.gameObject.GetComponent<AudioSource>().Play();
+            }
+            _followPlayer = true;
         }
     }
 }
